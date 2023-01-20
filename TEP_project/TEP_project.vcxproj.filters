@@ -39,6 +39,9 @@
     <ClCompile Include="RandomGenerator.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProbGenerator.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileUtils.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RandomGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProbGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

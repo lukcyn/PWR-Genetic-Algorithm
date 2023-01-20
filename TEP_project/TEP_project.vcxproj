@@ -133,6 +133,7 @@
     <ClCompile Include="KnapsackProblem.cpp" />
     <ClCompile Include="KnapsackProblem.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProbGenerator.cpp" />
     <ClCompile Include="RandomGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="Individual.h" />
     <ClInclude Include="RandomGenerator.h" />
+    <ClInclude Include="ProbGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data.txt" />

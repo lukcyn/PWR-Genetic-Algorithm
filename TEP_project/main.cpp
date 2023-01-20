@@ -1,12 +1,14 @@
-#include <iostream>
+#include "RandomGenerator.h"
 #include "FileUtils.h"
 #include "KnapsackProblem.h"
 #include "GeneticAlgorithm.h"
-#include "RandomGenerator.h"
+#include <iostream>
 
 #define FILE_PATH "data.txt"
 
 #define POP_SIZE 10
+#define MUTATION_PROB 0.1f
+#define CROSS_PROB 0.5f
 
 int main()
 {
@@ -18,8 +20,7 @@ int main()
 		return -1;
 	}
 
-	
-	GeneticAlgorithm ga(POP_SIZE, 0.1f, 0.50f);
+	GeneticAlgorithm ga(POP_SIZE, MUTATION_PROB, CROSS_PROB);
 
 	ga.Run(problem);
 

@@ -1,8 +1,9 @@
+#include "ProbGenerator.h"
 #include "Individual.h"
 
 RandomGenerator Individual::_boolGenerator(0, 1);
 
-RandomGenerator Individual::_probGenerator(0, 10000);
+ProbGenerator* Individual::_probGenerator = ProbGenerator::GetInstance();
 
 Individual::Individual(const size_t& genomeSize) 
 	: _indexGenerator(0, genomeSize - 1)
@@ -73,7 +74,7 @@ void Individual::Mutate(const float& mutationProb)
 {
 	for (size_t i = 0; i < _genomeSize; ++i)
 	{
-		if (_probGenerator.NextValue() >= mutationProb)
+		if (_probGenerator->NextValue() >= mutationProb)
 		{
 			_genome[i] = !_genome[i];
 		}

@@ -4,7 +4,6 @@
 
 #define ERR_COUNT -1
 
-//TODO: why is it here?
 KnapsackProblem::KnapsackProblem()
 {
 	_itemCount = ERR_COUNT;

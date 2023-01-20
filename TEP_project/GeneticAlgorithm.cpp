@@ -1,4 +1,5 @@
 #include "RandomGenerator.h"
+#include "ProbGenerator.h"
 #include "KnapsackProblem.h"
 #include "Individual.h"
 #include "GeneticAlgorithm.h"
@@ -9,7 +10,7 @@
 #define MAX_ITERATIONS 1000
 
 GeneticAlgorithm::GeneticAlgorithm(const int& populationSize, float mutationProb, float crossingProb)
-	: _indexGenerator(0, populationSize - 1), _probGenerator(0, 100)
+	: _indexGenerator(0, populationSize - 1)
 {	
 	mutationProb = fabsf(mutationProb);
 	crossingProb = fabsf(crossingProb);
@@ -22,6 +23,8 @@ GeneticAlgorithm::GeneticAlgorithm(const int& populationSize, float mutationProb
 	//Assigning and error checking
 	_mutationProb = mutationProb > 100 ? 100 : mutationProb;
 	_crossingProb = crossingProb > 100 ? 100 : crossingProb;
+
+	_probGenerator = ProbGenerator::GetInstance();
 }
 
 void GeneticAlgorithm::Run(KnapsackProblem& judge)
@@ -49,7 +52,6 @@ void GeneticAlgorithm::Run(KnapsackProblem& judge)
 	std::cout << "SIMULATION COMPLETE!" << std::endl;
 }
 
-//TODO: Implement
 std::vector<Individual> GeneticAlgorithm::CrossAll(std::vector<Individual>& parents, KnapsackProblem& judge)
 {
 	std::vector<Individual> children;
@@ -63,7 +65,7 @@ std::vector<Individual> GeneticAlgorithm::CrossAll(std::vector<Individual>& pare
 		Individual& p1 = RandomParent(parents, judge);
 		Individual& p2 = RandomParent(parents, judge);
 
-		if (_crossingProb > (float)_probGenerator.NextValue() / 100)
+		if (_crossingProb > _probGenerator->NextValue())
 		{
 			std::pair<Individual, Individual> pair = p1.Cross(parents[_indexGenerator.NextValue()]);
 			children.push_back(std::move(pair.first));
@@ -86,7 +88,6 @@ void GeneticAlgorithm::Mutate(std::vector<Individual>& population)
 		population[i].Mutate(_mutationProb);
 }
 
-//TODO: Implement
 void GeneticAlgorithm::Simulate(std::vector<Individual>& population, KnapsackProblem& judge)
 {
 

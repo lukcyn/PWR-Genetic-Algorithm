@@ -7,7 +7,7 @@ class GeneticAlgorithm
 	float _mutationProb;
 
 	class RandomGenerator _indexGenerator;
-	class RandomGenerator _probGenerator;		// TODO: change to singleton?
+	class ProbGenerator* _probGenerator;
 
 public:
 	GeneticAlgorithm() = delete;
