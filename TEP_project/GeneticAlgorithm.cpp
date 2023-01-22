@@ -7,7 +7,7 @@
 #include <math.h>
 #include <vector>
 
-#define MAX_ITERATIONS 1000
+#define MAX_ITERATIONS 500000
 
 GeneticAlgorithm::GeneticAlgorithm(const int& populationSize, float mutationProb, float crossingProb)
 	: _indexGenerator(0, populationSize - 1)
@@ -48,6 +48,16 @@ void GeneticAlgorithm::Run(KnapsackProblem& judge)
 
 	// Simulation itself
 	Simulate(population, judge);
+
+
+	std::cout << "Best fitting individual: " << std::endl;
+	judge.PrintBestFit();
+
+	std::cout << "Item weights: " << std::endl;
+	judge.PrintWeights();
+
+	std::cout << "Item values: " << std::endl;
+	judge.PrintValues();
 
 	std::cout << "SIMULATION COMPLETE!" << std::endl;
 }

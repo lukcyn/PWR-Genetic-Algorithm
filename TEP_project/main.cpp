@@ -4,11 +4,11 @@
 #include "GeneticAlgorithm.h"
 #include <iostream>
 
-#define FILE_PATH "data.txt"
+#define FILE_PATH "data_sets/data.txt"
 
 #define POP_SIZE 10
 #define MUTATION_PROB 0.1f
-#define CROSS_PROB 0.5f
+#define CROSS_PROB 0.6f
 
 int main()
 {

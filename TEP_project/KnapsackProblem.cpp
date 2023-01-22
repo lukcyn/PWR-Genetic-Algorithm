@@ -1,6 +1,5 @@
 #include "Individual.h"
 #include "KnapsackProblem.h"
-#include <iostream>
 
 #define ERR_COUNT -1
 
@@ -128,11 +127,11 @@ int KnapsackProblem::CalculateFitness(const bool* solution, const size_t& solSiz
 		{
 			totalWeight += _itemWeights[i];
 
-			//Add points if capacity is not exceeted. Stop iterating otherwise.
+			//Add points if capacity is not exceeted. Return 0 otherwise meaning that the fit is terrible.
 			if (totalWeight <= _maxWeight)
 				points += _itemValues[i];
 			else
-				break;
+				return 0;
 		
 		}
 	}
@@ -165,6 +164,21 @@ size_t KnapsackProblem::GetItemCount() const
 size_t KnapsackProblem::GetMaxWeight() const
 {
 	return _maxWeight;
+}
+
+void KnapsackProblem::PrintBestFit()
+{
+	PrintArray(_itemCount, _bestSolution);
+}
+
+void KnapsackProblem::PrintWeights()
+{
+	PrintArray(_itemCount, _itemWeights);
+}
+
+void KnapsackProblem::PrintValues()
+{
+	PrintArray(_itemCount, _itemValues);
 }
 
 void KnapsackProblem::ArrayCopy(bool*& container, const size_t& size, const bool* copyFrom)

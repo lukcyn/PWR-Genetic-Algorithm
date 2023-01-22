@@ -1,8 +1,8 @@
 #include "ProbGenerator.h"
 
 #define PROB_MIN 0
-#define PROB_MAX 10000
-#define PRECISION 100.0f				// Generator returns integer between PROB_MIN and PROB_MAX and divides the result by PRECISION
+#define PROB_MAX 100000
+#define PRECISION 1000.0f				// Generator returns integer between PROB_MIN and PROB_MAX and divides the result by PRECISION
 
 ProbGenerator* ProbGenerator::_singleton = NULL;
 
