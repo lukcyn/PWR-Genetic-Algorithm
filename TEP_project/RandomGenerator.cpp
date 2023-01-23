@@ -20,8 +20,8 @@ int RandomGenerator::NextValue()
 	return _dis(_gen);
 }
 
-void RandomGenerator::SeedData(bool* arr, const size_t& size)
+void RandomGenerator::SeedData(bool* arr, const int& size)
 {
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		arr[i] = NextValue();
 }

@@ -19,5 +19,5 @@ public:
 	
 	int NextValue();
 
-	void SeedData(bool* data, const size_t& size);
+	void SeedData(bool* data, const int& size);
 };

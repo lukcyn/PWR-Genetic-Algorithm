@@ -1,13 +1,15 @@
+#pragma once
+
 #include "FileUtils.h"
 #include "KnapsackProblem.h"
 #include <iostream>
 #include <deque>
 #include <sstream>
+#include <filesystem>
 
-
-//Labeled line numbers of input file
-//DSC -> line number on which description will be written
-//DATA -> line number from which data will be recieved
+// Labeled line numbers of input file
+// DSC -> line number on which description will be written
+// DATA -> line number from which data will be recieved
 
 #define DSC_GENERAL1 0
 #define DSC_GENERAL2 1
@@ -68,10 +70,9 @@
 	return true;
 }
 
-int* GetValuesFromLine(const std::string& line, size_t& elementCount)
+int* GetValuesFromLine(const std::string& line, int& elementCount)
 {
 	std::istringstream iss(line);
-	std::string tempStr;
 
 	elementCount = 0;
 	int temp;
@@ -96,23 +97,25 @@ int* GetValuesFromLine(const std::string& line, size_t& elementCount)
 	return values;
 }
 
-int* GetValuesAssertSize(const std::string& line, const size_t& assertCount)
+bool GetValuesAssertSize(const std::string& line, const int& assertCount, int*& memToAlloc)
 {
-	size_t elCount = 0;
-	int* toReturn = GetValuesFromLine(line, elCount);
+	int elCount = 0;
+	memToAlloc = GetValuesFromLine(line, elCount);
 
 	if (elCount != assertCount)
 	{
-		std::cout << "ASSERTION ERROR: Datasets contain unequal number of elements or the elements have wrong fromat" << std::endl;
+		std::cout << "ASSERTION ERROR: Datasets contain unequal number of elements or the elements have wrong format" << std::endl;
+		return false;
 	}
-	return toReturn;
+
+	return true;
 }
 
-bool CheckEmpty(const std::string& line)
+bool CheckEmpty(const std::string& line, const char* path)
 {
 	if (line.empty())
 	{
-		std::cout << "ERR: Some of the data might be missing" << std::endl;
+		std::cout << "ERR: Some of the data might be missing at file: " << path << std::endl;
 		return true;
 	}
 	return false;
@@ -123,36 +126,14 @@ bool ParseFileToProblem(const char* filePath, KnapsackProblem& kproblem)
 	std::ifstream  str;
 	str.open(filePath, std::ios::out);
 
-	size_t elemNum = 0;
-	size_t backpackCapacity = 0;
+	int elemNum = 0;
+	int backpackCapacity = 0;
 	int* itemValues = NULL;
 	int* itemWeights = NULL;
 
 	if (!str.good())
 	{
 		std::cout << "ERROR! Cannot open file to make an template at: " << filePath << std::endl;
-
-		std::cout << "Cannot find file " << filePath << '\n';
-
-		std::cout << "Create new template? y/n" << std::endl;
-
-		char choice = '0';
-
-		while (choice != 'y' && choice != 'n')
-		{
-			std::cin.ignore(256, '\n');
-			choice = std::cin.get();
-			std::cout << choice << std::endl;
-		}
-
-		if (choice == 'y')
-		{
-			std::cout
-				<< "Creating template file at: " << filePath << '\n'
-				<< "Restart the program once the file is filled." << std::endl;
-			
-			CreateNewTemplate(filePath);
-		}
 
 		return false;
 	}
@@ -165,21 +146,25 @@ bool ParseFileToProblem(const char* filePath, KnapsackProblem& kproblem)
 		switch (i)
 		{
 			case DATA_ITEM_VALUE:
-				if (CheckEmpty(line))
+				if (CheckEmpty(line, filePath))
 					return false;
 
 				itemValues = GetValuesFromLine(line, elemNum);
 				break;
 
 			case DATA_ITEM_WEIGHT:
-				if (CheckEmpty(line))
+				if (CheckEmpty(line, filePath))
 					return false;
 
-				itemWeights = GetValuesAssertSize(line, elemNum);
+				if (!GetValuesAssertSize(line, elemNum, itemWeights))
+				{
+					std::cout << "Error at file: " << filePath << std::endl;
+					return false;
+				}
 				break;
 
 			case DATA_BACKPACK_CAPACIY:
-				if (CheckEmpty(line))
+				if (CheckEmpty(line, filePath))
 					return false;
 
 				backpackCapacity = std::stoi(line);
@@ -194,4 +179,41 @@ bool ParseFileToProblem(const char* filePath, KnapsackProblem& kproblem)
 	
 	kproblem.LoadProblem(elemNum, backpackCapacity, itemWeights, itemValues);
 	return true;
+}
+
+std::vector<KnapsackProblem> ParseDirectoryToProblem(const char* dirPath)
+{
+	std::vector<KnapsackProblem> container;
+	
+	KnapsackProblem kp;
+	for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(dirPath))
+	{
+		if (ParseFileToProblem(entry.path().generic_string().c_str(), kp))
+			container.push_back(kp);
+	}
+
+	return container;
+}
+
+void CreateFileAtPathPrompt(const char* path)
+{
+	std::cout << "Create new template? y/n" << std::endl;
+
+	char choice = '0';
+
+	while (choice != 'y' && choice != 'n')
+	{
+		std::cin.ignore(256, '\n');
+		choice = std::cin.get();
+		std::cout << choice << std::endl;
+	}
+
+	if (choice == 'y')
+	{
+		std::cout
+			<< "Creating template file at: " << path << '\n'
+			<< "Restart the program once the file is filled." << std::endl;
+
+		CreateNewTemplate(path);
+	}
 }

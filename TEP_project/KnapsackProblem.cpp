@@ -1,16 +1,17 @@
 #include "Individual.h"
 #include "KnapsackProblem.h"
+#include <math.h>
 
-#define ERR_COUNT -1
+#define DEF_COUNT 0
 
 KnapsackProblem::KnapsackProblem()
 {
-	_itemCount = ERR_COUNT;
-	_maxWeight = ERR_COUNT;
+	_itemCount = DEF_COUNT;
+	_maxWeight = DEF_COUNT;
 	_itemValues = NULL;
 	_itemWeights = NULL;
 
-	_bestFit = ERR_COUNT;
+	_bestFit = DEF_COUNT;
 	_bestSolution = NULL;
 }
 
@@ -29,8 +30,15 @@ KnapsackProblem::KnapsackProblem(const KnapsackProblem& other)
 	}
 
 	_bestFit = other._bestFit;
+	
+	if (other._bestSolution != NULL)
+	{
+		_bestSolution = new bool[_itemCount];
+		ArrayCopy(_bestSolution, _itemCount, other._bestSolution);
+	}
+	else
+		_bestSolution = NULL;
 
-	ArrayCopy(_bestSolution, _itemCount, other._bestSolution);
 }
 
 KnapsackProblem::KnapsackProblem(KnapsackProblem&& other) noexcept
@@ -48,22 +56,29 @@ KnapsackProblem::KnapsackProblem(KnapsackProblem&& other) noexcept
 	_bestFit = -1;
 }
 
-KnapsackProblem::KnapsackProblem(const size_t& itemCount, const size_t& maxWeight, int* itemWeights, int* itemValues)
+KnapsackProblem::KnapsackProblem(const int& itemCount, const int& maxWeight, int* itemWeights, int* itemValues)
 {
 	LoadProblem(itemCount, maxWeight, itemWeights, itemValues);
 }
 
-inline void KnapsackProblem::LoadProblem(const size_t& itemCount, const size_t& maxWeight, int* itemWeights, int* itemValues)
+inline void KnapsackProblem::LoadProblem(const int& itemCount, const int& maxWeight, int* itemWeights, int* itemValues)
 {
 	delete[] _itemWeights;
 	delete[] _itemValues;
 	delete[] _bestSolution;
 
-	_maxWeight = maxWeight;
-	_itemCount = itemCount;
+	_maxWeight = abs(maxWeight);
+	_itemCount = abs(itemCount);
 	_itemWeights = itemWeights;
 	_itemValues = itemValues;
-	_bestFit = -1;
+	_bestFit = DEF_COUNT;
+
+	// Look if there are any negative numbers
+	for (int i = 0; i < itemCount; ++i) 
+	{
+		_itemWeights[i] = abs(_itemWeights[i]);
+		_itemValues[i] = abs(_itemValues[i]);
+	}
 }
 
 KnapsackProblem KnapsackProblem::operator=(const KnapsackProblem& other)
@@ -101,7 +116,7 @@ KnapsackProblem& KnapsackProblem::operator=(KnapsackProblem&& other) noexcept
 	return *this;
 }
 
-int KnapsackProblem::CalculateFitness(const bool* solution, const size_t& solSize)
+int KnapsackProblem::CalculateFitness(const bool* solution, const int& solSize)
 {
 	if (solSize != _itemCount)
 	{
@@ -112,7 +127,7 @@ int KnapsackProblem::CalculateFitness(const bool* solution, const size_t& solSiz
 	int points = 0;
 	int totalWeight = 0;
 
-	for (size_t i = 0; i < _itemCount; ++i)
+	for (int i = 0; i < _itemCount; ++i)
 	{
 		bool element = solution[i];
 
@@ -150,18 +165,24 @@ KnapsackProblem::~KnapsackProblem()
 	delete[] _bestSolution;
 }
 
-size_t KnapsackProblem::GetItemCount() const
+int KnapsackProblem::GetItemCount() const
 {
 	return _itemCount;
 }
 
-size_t KnapsackProblem::GetMaxWeight() const
+int KnapsackProblem::GetMaxWeight() const
 {
 	return _maxWeight;
 }
 
 void KnapsackProblem::PrintBestFit()
 {
+	if (_bestSolution == NULL)
+	{
+		std::cout << "No fitting solution found" << std::endl;
+		return;
+	}
+
 	PrintArray(_itemCount, _bestSolution);
 }
 
@@ -175,7 +196,7 @@ void KnapsackProblem::PrintValues()
 	PrintArray(_itemCount, _itemValues);
 }
 
-void KnapsackProblem::ArrayCopy(bool*& container, const size_t& size, const bool* copyFrom)
+void KnapsackProblem::ArrayCopy(bool*& container, const int& size, const bool* copyFrom)
 {
 	for (int i = 0; i < size; ++i)
 		container[i] = copyFrom[i];

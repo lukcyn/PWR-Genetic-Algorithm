@@ -5,7 +5,7 @@
 class Individual
 {
 	bool* _genome;
-	size_t _genomeSize;
+	int _genomeSize;
 
 	class RandomGenerator _indexGenerator;										// Returns values between 0 and (_genomeSize - 1)
 	static class RandomGenerator _boolGenerator;								// Returns 0 or 1
@@ -14,7 +14,7 @@ class Individual
 public:
 	Individual() = delete;
 	
-	Individual(const size_t& genomeSize);
+	Individual(const int& genomeSize);
 
 	Individual(const Individual& other);
 	

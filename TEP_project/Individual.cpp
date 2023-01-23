@@ -6,7 +6,7 @@ RandomGenerator Individual::_boolGenerator(0, 1);
 
 ProbGenerator* Individual::_probGenerator = ProbGenerator::GetInstance();
 
-Individual::Individual(const size_t& genomeSize) 
+Individual::Individual(const int& genomeSize)
 	: _indexGenerator(0, genomeSize - 1)
 {
 	_genome = new bool[genomeSize];
@@ -78,9 +78,9 @@ Individual::~Individual()
 
 void Individual::Mutate(const float& mutationProb)
 {
-	for (size_t i = 0; i < _genomeSize; ++i)
+	for (int i = 0; i < _genomeSize; ++i)
 	{
-		if (_probGenerator->NextValue() >= mutationProb)
+		if (mutationProb >= _probGenerator->NextValue())
 		{
 			_genome[i] = !_genome[i];
 		}
@@ -89,14 +89,13 @@ void Individual::Mutate(const float& mutationProb)
 
 std::pair<Individual, Individual> Individual::Cross(const Individual& other) const
 {
-	//TODO: change to scheme theory...
 	Individual i1(_genomeSize);
 	Individual i2(_genomeSize);
 
 	bool* genome1 = i1._genome;
 	bool* genome2 = i2._genome;
 
-	for (size_t i = 0; i < _genomeSize; ++i)
+	for (int i = 0; i < _genomeSize; ++i)
 	{
 		if (_boolGenerator.NextValue())
 		{

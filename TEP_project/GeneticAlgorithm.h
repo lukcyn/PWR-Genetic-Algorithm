@@ -2,7 +2,7 @@
 
 class GeneticAlgorithm
 {
-	size_t _populationSize;
+	int _populationSize;
 	float _crossingProb;
 	float _mutationProb;
 
@@ -27,7 +27,7 @@ private:
 
 	void Simulate(std::vector<class Individual>& population, class KnapsackProblem& judge);
 
-	void SeedPopulation(std::vector<class Individual>& containerToPopulate, const size_t& indivCount, const size_t& genomeSize);
+	void SeedPopulation(std::vector<class Individual>& containerToPopulate, const int& indivCount, const int& genomeSize);
 
 	class Individual& RandomParent(std::vector<class Individual>& parents, class KnapsackProblem& judge);
 	

@@ -61,8 +61,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data.txt">
-      <Filter>Other Files</Filter>
-    </Text>
+    <Text Include="data_sets\data5.txt" />
   </ItemGroup>
 </Project>

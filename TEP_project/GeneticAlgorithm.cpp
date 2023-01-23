@@ -37,14 +37,15 @@ void GeneticAlgorithm::Run(KnapsackProblem& judge)
 	SeedPopulation(population, _populationSize, judge.GetItemCount());
 	
 	std::cout 
-		<< "SIMULATION START"
-		<< "\nParameters: "
+		<< "Parameters: "
 		<< "\nPopulation size:\t" << _populationSize
 		<< "\nItem count:\t\t" << judge.GetItemCount()
 		<< "\nKnapsack capacity:\t" << judge.GetMaxWeight()
 		<< "\nMutation probability:\t" << _mutationProb
 		<< "\nCrossing probability:\t" << _crossingProb
-		<< "\nEnd condition: iteration count == " << MAX_ITERATIONS << std::endl;
+		<< "\nEnd condition: iteration count == " << MAX_ITERATIONS 
+		<< "\nSIMULATION START" 
+		<< std::endl;
 
 	// Simulation itself
 	Simulate(population, judge);
@@ -67,7 +68,7 @@ std::vector<Individual> GeneticAlgorithm::CrossAll(std::vector<Individual>& pare
 	std::vector<Individual> children;
 	children.reserve(_populationSize);
 
-	size_t popSizeNow = 0;
+	int popSizeNow = 0;
 
 	// Begin crossing until desired children count
 	while (popSizeNow < _populationSize)
@@ -94,7 +95,7 @@ std::vector<Individual> GeneticAlgorithm::CrossAll(std::vector<Individual>& pare
 
 void GeneticAlgorithm::Mutate(std::vector<Individual>& population)
 {
-	for (size_t i = 0; i < _populationSize; ++i)
+	for (int i = 0; i < _populationSize; ++i)
 		population[i].Mutate(_mutationProb);
 }
 
@@ -109,11 +110,11 @@ void GeneticAlgorithm::Simulate(std::vector<Individual>& population, KnapsackPro
 	}
 }
 
-void GeneticAlgorithm::SeedPopulation(std::vector<Individual>& containerToPopulate, const size_t& indivCount, const size_t& genomeSize)
+void GeneticAlgorithm::SeedPopulation(std::vector<Individual>& containerToPopulate, const int& indivCount, const int& genomeSize)
 {
 	containerToPopulate.reserve(indivCount);
 
-	for (size_t i = 0; i < indivCount; ++i)
+	for (int i = 0; i < indivCount; ++i)
 		containerToPopulate.emplace_back(genomeSize);
 }
 
