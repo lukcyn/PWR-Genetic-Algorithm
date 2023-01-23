@@ -32,8 +32,6 @@ public:
 
 	int CalculateFitness(const bool* solution, const size_t& solSize);
 
-	int CalculateFitness(const class Individual& indv);
-
 	~KnapsackProblem();
 
 	size_t GetItemCount() const;

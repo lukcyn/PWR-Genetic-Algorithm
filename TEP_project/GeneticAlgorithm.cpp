@@ -122,11 +122,11 @@ Individual& GeneticAlgorithm::RandomParent(std::vector<Individual>& parents, Kna
 	Individual& p1 = parents[_indexGenerator.NextValue()];
 	Individual& p2 = parents[_indexGenerator.NextValue()];
 
-	return judge.CalculateFitness(p1) > judge.CalculateFitness(p2) ? p1 : p2;
+	return p1.CalculateFitness(judge) > p2.CalculateFitness(judge) ? p1 : p2;
 }
 
 void GeneticAlgorithm::CalculateAllFitnesses(std::vector<Individual>& population, KnapsackProblem& judge)
 {
 	for (int i = 0; i < _populationSize; ++i)
-		judge.CalculateFitness(population[i]);
+		population[i].CalculateFitness(judge);
 }

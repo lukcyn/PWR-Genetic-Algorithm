@@ -101,12 +101,6 @@ KnapsackProblem& KnapsackProblem::operator=(KnapsackProblem&& other) noexcept
 	return *this;
 }
 
-int KnapsackProblem::CalculateFitness(const Individual& ind) 
-{
-	//TODO: encapsulate
-	return CalculateFitness(ind._genome, ind._genomeSize);
-}
-
 int KnapsackProblem::CalculateFitness(const bool* solution, const size_t& solSize)
 {
 	if (solSize != _itemCount)

@@ -1,0 +1,11 @@
+// Make sure that number of item values are equal to the number of item weights.
+// Some data might be skipped if this condition is not met.
+
+// Write item values below with a space between each new value
+1 2 5 6 9 1 4 6 9 2 4 5 1 5 6
+
+// Write item weights below with a space between each new value
+2 3 4 5	9 1 6 2 7 2 1 4 5 6 8
+
+// Write below total backpack capacity
+8

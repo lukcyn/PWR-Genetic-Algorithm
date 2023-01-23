@@ -4,8 +4,6 @@
 
 class Individual
 {
-	friend class KnapsackProblem;
-
 	bool* _genome;
 	size_t _genomeSize;
 
@@ -32,4 +30,6 @@ public:
 																			// (meaning every gene can mutate, therefore the prob should be low)					
 
 	std::pair<Individual,Individual> Cross(const Individual& other) const;	// Uniform crossing
+
+	int CalculateFitness(class KnapsackProblem& judge);
 };

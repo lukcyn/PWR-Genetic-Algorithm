@@ -1,5 +1,6 @@
 #include "ProbGenerator.h"
 #include "Individual.h"
+#include "KnapsackProblem.h"
 
 RandomGenerator Individual::_boolGenerator(0, 1);
 
@@ -63,6 +64,11 @@ Individual& Individual::operator&&(Individual&& other) noexcept
 	other._genome = NULL;
 
 	return *this;
+}
+
+int Individual::CalculateFitness(KnapsackProblem& judge)
+{
+	return judge.CalculateFitness(_genome, _genomeSize);
 }
 
 Individual::~Individual()
